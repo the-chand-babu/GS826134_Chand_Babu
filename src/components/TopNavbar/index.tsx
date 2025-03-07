@@ -1,6 +1,11 @@
 import "./style.css";
+import Logo from "../../assets/Gsynergy-logo.svg";
 
-const SideNavbar = () => {
-  return <div id="side-navbar"></div>;
+const TopNavbar = () => {
+  return (
+    <div id="top-navbar">
+      <img className="logo" src={Logo} />
+    </div>
+  );
 };
-export default SideNavbar;
+export default TopNavbar;

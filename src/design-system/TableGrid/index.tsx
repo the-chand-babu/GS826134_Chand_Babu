@@ -2,13 +2,21 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
+
 import {
+  ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ModuleRegistry,
+  RowDragModule,
+  RowSelectionModule,
+  TextFilterModule,
   ValidationModule,
-  createGrid,
 } from "ag-grid-community";
 ModuleRegistry.registerModules([
+  ClientSideRowModelApiModule,
+  TextFilterModule,
+  RowDragModule,
+  RowSelectionModule,
   ClientSideRowModelModule,
   ValidationModule /* Development Only */,
 ]);
@@ -23,9 +31,10 @@ export const GridTable = ({ columnDefs, rowData }: any) => {
     <div style={containerStyle}>
       <div style={gridStyle}>
         <AgGridReact
+          rowDragManaged={true}
           rowData={rowData}
           columnDefs={columnDefs}
-          onGridReady={onGridReady}
+          onGridReady={() => onGridReady()}
         />
       </div>
     </div>

@@ -1,0 +1,147 @@
+#custom-textField-wrapper {
+  width: 100%;
+}
+
+#custom-textField-wrapper .text-field-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+#custom-textField-wrapper .input-button-wrapper {
+  display: flex;
+  position: relative;
+}
+
+#custom-textField-wrapper .input-button-wrapper .text-field-input-field {
+  width: 100%;
+}
+
+#custom-textField-wrapper .input-button-wrapper .text-field-input-field input {
+  height: 20px;
+  padding: 10px 20px 10px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  width: 100%;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .text-field-input-field
+  input.Mui-disabled {
+  background-color: #e3e3e380 !important;
+  color: #726c6c !important;
+  border-radius: 8px;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .text-field-input-field
+  .MuiOutlinedInput-root:hover
+  .MuiOutlinedInput-notchedOutline {
+  border-radius: 8px;
+  transition: border 0.2s ease-in-out;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .text-field-input-field
+  .MuiOutlinedInput-notchedOutline {
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .text-field-input-field
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: 1.5px solid #007bff;
+  border-radius: 8px;
+}
+
+#custom-textField-wrapper .input-button-wrapper .validate-button {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #6b4de6;
+  color: #fafafa;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17.6px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#custom-textField-wrapper .input-button-wrapper .validate-status {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 14px;
+}
+
+#custom-textField-wrapper .input-button-wrapper .validate-status span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0a0a0b;
+  line-height: 17.6px;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .validate-status
+  .cancel-button {
+  background-color: #e3e3e3;
+  color: #0a0a0b;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17.6px;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .validate-status
+  .cancel-button:hover {
+  background-color: #d6d6d6;
+}
+
+#custom-textField-wrapper .input-button-wrapper .validated-state {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 5px;
+}
+
+#custom-textField-wrapper .input-button-wrapper .validated-state .check-icon {
+  display: flex;
+  align-items: center;
+}
+
+#custom-textField-wrapper
+  .input-button-wrapper
+  .validated-state
+  .validated-text {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+}
+
+#custom-textField-wrapper .error-message-helper-text {
+  /* Add the styles for error-message-helper-text here */
+}

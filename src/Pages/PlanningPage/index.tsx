@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GridTable } from "../../components/design-system/TableGrid";
+import { GridTable } from "../../design-system/TableGrid";
 import "./style.css";
 
 const PlaningPage = () => {

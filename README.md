@@ -4,7 +4,7 @@ This project is a React application that allows users to see and update store an
 
 ## Live Site
 
-You can view the live application at: [https://gs826134-chand-babu-it8o.onrender.com/store](https://gs826134-chand-babu-it8o.onrender.com/store)
+You can view the live application at: https://gs826134-chand-babu-z0se.onrender.com/chart
 
 ## Installation
 

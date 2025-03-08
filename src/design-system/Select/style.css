@@ -1,0 +1,89 @@
+#custom-select-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+#custom-select-wrapper p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+#custom-select-wrapper .MuiInputBase-root {
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+  padding: 0 12px;
+  border-radius: 8px;
+}
+
+#custom-select-wrapper .MuiInputBase-root .MuiSvgIcon-root {
+  color: #333;
+}
+
+#custom-select-wrapper .MuiInputBase-root .MuiOutlinedInput-notchedOutline {
+  border: 1px solid #cccccc;
+  transition: border 0.2s ease-in-out;
+}
+
+#custom-select-wrapper
+  .MuiInputBase-root:hover
+  .MuiOutlinedInput-notchedOutline {
+  border: 1px solid #0095c7c0;
+}
+
+#custom-select-wrapper
+  .MuiInputBase-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: 1.5px solid #007bff;
+}
+
+#custom-select-wrapper .MuiInputBase-root .MuiOutlinedInput-input {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+#custom-select-wrapper .error-message-helper-text {
+  /* Add the styles for error-message-helper-text here */
+}
+
+#custom-select-wrapper #state-select-label {
+  position: absolute;
+  top: 35px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  width: 100%;
+  padding-left: 10px;
+  opacity: 0.45;
+}
+
+.custom-mui-select-popper-wrapper .MuiPaper-root {
+  background-color: #ffffff;
+  max-height: 350px;
+  overflow-y: scroll;
+  max-height: 245px !important;
+}
+
+.custom-mui-select-popper-wrapper .MuiPaper-root::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-mui-select-popper-wrapper .MuiPaper-root .MuiButtonBase-root {
+  color: #333333;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.custom-mui-select-popper-wrapper .Mui-focusVisible {
+  background-color: transparent !important;
+}
+
+.custom-mui-select-popper-wrapper .menu-item-text {
+  font-size: 14px;
+  font-weight: 500;
+}

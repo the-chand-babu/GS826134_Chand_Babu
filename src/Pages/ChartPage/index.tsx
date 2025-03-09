@@ -1,7 +1,12 @@
+import BarChart from "../../design-system/Charts";
 import "./style.css";
 
 const ChartPage = () => {
-  return <div id="chart-container">this is chart page</div>;
+  return (
+    <div id="chart-container">
+      <BarChart />
+    </div>
+  );
 };
 
 export default ChartPage;

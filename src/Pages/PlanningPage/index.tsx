@@ -1,161 +1,173 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GridTable } from "../../design-system/TableGrid";
+import { salesData, weekMapping } from "../../data/planingData";
 import "./style.css";
+import CustomTextField from "../../design-system/TextField";
+
+const SalesUnitsRenderer = (props: any) => {
+  const { value, rowIndex, monthKey, weekKey, api } = props;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    console.log("onChange working:", newValue);
+    props.updateRowData((prevData: any) => {
+      const updatedData = [...prevData];
+      if (
+        updatedData[rowIndex] &&
+        updatedData[rowIndex][monthKey] &&
+        updatedData[rowIndex][monthKey][weekKey]
+      ) {
+        updatedData[rowIndex][monthKey][weekKey] = {
+          ...updatedData[rowIndex][monthKey][weekKey],
+          salesUnits: newValue,
+        };
+      }
+      return updatedData;
+    });
+  };
+
+  return <CustomTextField value={value} onChange={handleChange} />;
+};
 
 const PlaningPage = () => {
-  const [rowData] = useState([
-    {
-      store: "Nashville Melody Music Store",
-      sku: "Rugged Utility Jacket",
-      jan: {
-        week1: {
-          salesUnits: 200,
-          salesDollars: 8998,
-          gmDollars: 8512,
-          gmPercent: "94.60%",
-        },
-        week2: {
-          salesUnits: 0,
-          salesDollars: 0,
-          gmDollars: 8512,
-          gmPercent: "94.60%",
-        },
-      },
-      feb: {
-        week1: {
-          salesUnits: 15,
-          salesDollars: 675,
-          gmDollars: 600,
-          gmPercent: "88.89%",
-        },
-        week2: {
-          salesUnits: 0,
-          salesDollars: 0,
-          gmDollars: 0,
-          gmPercent: "0.00%",
-        },
-      },
-    },
-    {
-      store: "Chicago Charm Boutique",
-      sku: "Floral Chiffon Wrap Dress",
-      jan: {
-        week1: {
-          salesUnits: 200,
-          salesDollars: 29998,
-          gmDollars: 27689.6,
-          gmPercent: "54.30%",
-        },
-        week2: {
-          salesUnits: 0,
-          salesDollars: 0,
-          gmDollars: 27689.6,
-          gmPercent: "54.30%",
-        },
-      },
-      feb: {
-        week1: {
-          salesUnits: 22,
-          salesDollars: 2599,
-          gmDollars: 2400,
-          gmPercent: "92.31%",
-        },
-        week2: {
-          salesUnits: 10,
-          salesDollars: 980,
-          gmDollars: 900,
-          gmPercent: "91.84%",
-        },
-      },
-    },
-    {
-      store: "Miami Breeze Apparel",
-      sku: "Lace-Up Combat Boots",
-      jan: {
-        week1: {
-          salesUnits: 199,
-          salesDollars: 4973.01,
-          gmDollars: 31.95,
-          gmPercent: "0.60%",
-        },
-        week2: {
-          salesUnits: 14,
-          salesDollars: 349.86,
-          gmDollars: 31.95,
-          gmPercent: "0.60%",
-        },
-      },
-      feb: {
-        week1: {
-          salesUnits: 8,
-          salesDollars: 168,
-          gmDollars: 12,
-          gmPercent: "7.14%",
-        },
-        week2: {
-          salesUnits: 20,
-          salesDollars: 440,
-          gmDollars: 40,
-          gmPercent: "9.09%",
-        },
-      },
-    },
-    // ...Add more rows as needed
-  ]);
-  const [columnDefs] = useState([
-    { headerName: "Store", field: "store", pinned: "left" },
-    { headerName: "SKU", field: "sku", pinned: "left" },
-    {
-      headerName: "Jan",
-      children: [
-        {
-          headerName: "Week 01",
-          children: [
+  const [rowData, setRowData] = useState<any>([]);
+  const [columnDefs, setColumnDefs] = useState<any>([]);
+
+  useEffect(() => {
+    const aggregatedData = salesData.reduce((acc: any, item: any) => {
+      const mapping = weekMapping.find((m) => m.Week === item.Week);
+      if (!mapping) return acc; // Skip if no mapping is found
+
+      const monthKey = mapping["Month Label"].toLowerCase();
+      const weekNumber = "week" + parseInt(item.Week.substring(1), 10);
+      const uniqueKey: any = `${item.Store}_${item.SKU}`;
+
+      if (!acc[uniqueKey]) {
+        acc[uniqueKey] = {
+          store: item.Store,
+          sku: item.SKU,
+        };
+      }
+      if (!acc[uniqueKey][monthKey]) {
+        acc[uniqueKey][monthKey] = {};
+      }
+      acc[uniqueKey][monthKey][weekNumber] = {
+        salesUnits: item["Sales Units"],
+        salesDollars: item["Sales Dollars"],
+        gmDollars: item["GM Dollars"],
+        gmPercent: item["GM %"],
+      };
+
+      return acc;
+    }, {});
+
+    const finalData = Object.values(aggregatedData);
+    setRowData(finalData);
+    console.log("Aggregated Data:", finalData);
+  }, []);
+
+  // Build dynamic column definitions based on weekMapping
+  useEffect(() => {
+    const baseColumns = [
+      { headerName: "Store", field: "store", pinned: "left" },
+      { headerName: "SKU", field: "sku", pinned: "left" },
+    ];
+
+    const monthMap = weekMapping.reduce((acc, mapping) => {
+      const monthKey = mapping["Month Label"].toLowerCase();
+      if (!acc[monthKey]) {
+        acc[monthKey] = [];
+      }
+      acc[monthKey].push(mapping);
+      return acc;
+    }, {} as Record<string, any[]>);
+
+    const monthColumns = Object.entries(monthMap).map(
+      ([monthKey, mappings]) => {
+        const monthLabel = mappings[0]["Month Label"];
+
+        const sortedMappings = mappings.sort(
+          (a, b) =>
+            parseInt(a.Week.substring(1), 10) -
+            parseInt(b.Week.substring(1), 10)
+        );
+
+        const weekGroups = sortedMappings.map((mapping) => {
+          const weekLabel = mapping["Week Label"];
+          const weekKey = "week" + parseInt(mapping.Week.substring(1), 10);
+
+          const metricColumns = [
             {
               headerName: "Sales Units",
-              field: "jan.week1.salesUnits",
+              field: `${monthKey}.${weekKey}.salesUnits`,
               sort: "desc",
+              // Use cellRendererFramework to render a React component.
+              cellRendererFramework: (params: any) => (
+                <SalesUnitsRenderer
+                  value={params.value}
+                  rowIndex={params.rowIndex}
+                  monthKey={monthKey}
+                  weekKey={weekKey}
+                  updateRowData={setRowData}
+                />
+              ),
             },
-            { headerName: "Sales Dollars", field: "jan.week1.salesDollars" },
-            { headerName: "GM Dollars", field: "jan.week1.gmDollars" },
-            { headerName: "GM Percent", field: "jan.week1.gmPercent" },
-          ],
-        },
-        {
-          headerName: "Week 02",
-          children: [
-            { headerName: "Sales Units", field: "jan.week2.salesUnits" },
-            { headerName: "Sales Dollars", field: "jan.week2.salesDollars" },
-            { headerName: "GM Dollars", field: "jan.week2.gmDollars" },
-            { headerName: "GM Percent", field: "jan.week2.gmPercent" },
-          ],
-        },
-      ],
-    },
-    {
-      headerName: "Feb",
-      children: [
-        {
-          headerName: "Week 01",
-          children: [
-            { headerName: "Sales Units", field: "feb.week1.salesUnits" },
-            { headerName: "Sales Dollars", field: "feb.week1.salesDollars" },
-            { headerName: "GM Dollars", field: "feb.week1.gmDollars" },
-            { headerName: "GM Percent", field: "feb.week1.gmPercent" },
-          ],
-        },
-        {
-          headerName: "Week 02",
-          children: [
-            { headerName: "Sales Units", field: "feb.week2.salesUnits" },
-            { headerName: "Sales Dollars", field: "feb.week2.salesDollars" },
-            { headerName: "GM Dollars", field: "feb.week2.gmDollars" },
-            { headerName: "GM Percent", field: "feb.week2.gmPercent" },
-          ],
-        },
-      ],
-    },
-  ]);
+            {
+              headerName: "Sales Dollars",
+              field: `${monthKey}.${weekKey}.salesDollars`,
+            },
+            {
+              headerName: "GM Dollars",
+              field: `${monthKey}.${weekKey}.gmDollars`,
+            },
+            {
+              headerName: "GM Percent",
+              field: `${monthKey}.${weekKey}.gmPercent`,
+              cellRenderer: (params: any) => {
+                const value = params.value
+                  ? parseFloat(params.value.replace("%", ""))
+                  : 0;
+                let bgColor = "";
+                if (value >= 40) {
+                  bgColor = "green";
+                } else if (value >= 10 && value < 40) {
+                  bgColor = "yellow";
+                } else if (value > 5 && value < 10) {
+                  bgColor = "orange";
+                } else if (value <= 5) {
+                  bgColor = "red";
+                }
+                return (
+                  <div
+                    style={{
+                      backgroundColor: bgColor,
+                      padding: "5px",
+                      height: "100%",
+                    }}
+                  >
+                    {params.value}
+                  </div>
+                );
+              },
+            },
+          ];
+
+          return {
+            headerName: weekLabel,
+            children: metricColumns,
+          };
+        });
+
+        return {
+          headerName: monthLabel,
+          children: weekGroups,
+        };
+      }
+    );
+
+    setColumnDefs([...baseColumns, ...monthColumns]);
+  }, []);
+
+  console.log("Column Definitions:", columnDefs);
 
   return (
     <div id="planing-container">

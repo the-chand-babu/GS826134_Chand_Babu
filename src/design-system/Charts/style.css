@@ -1,0 +1,16 @@
+.chart-container {
+  width: 100%;
+  height: 700px;
+  background: black;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.chart-heading {
+  color: #fff;
+  font-size: 25px;
+  font-family: 700;
+  width: fit-content;
+  margin: auto;
+  margin-bottom: 20px;
+}

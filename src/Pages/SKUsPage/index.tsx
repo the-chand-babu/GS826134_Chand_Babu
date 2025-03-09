@@ -49,7 +49,7 @@ const SKUPage = () => {
     { headerName: "Price", field: "Price" },
     { headerName: "Cost", field: "Cost" },
   ];
-
+  // console.log("===========", rowData);
   return (
     <div id="planing-container">
       <CustomModal

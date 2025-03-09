@@ -1,10 +1,11 @@
+import { chartData } from "../../data/chartData";
 import BarChart from "../../design-system/Charts";
 import "./style.css";
 
 const ChartPage = () => {
   return (
     <div id="chart-container">
-      <BarChart />
+      <BarChart data={chartData} />
     </div>
   );
 };
